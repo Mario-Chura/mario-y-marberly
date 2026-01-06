@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matrimonio Civil de Mario y Marberly</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- CONFIGURACIÓN GENERAL --- */
+        :root {
+            --color-burgundy: #7a3838;
+            --color-gold: #c9a961;
+            --color-text: #6b5454;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            font-family: 'Playfair Display', serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* --- CONTENEDOR PRINCIPAL --- */
+        .invitation-card {
+            background-image: url('fondo.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-color: #faf8f5;
+            width: 100%;
+            max-width: 500px;
+            min-height: 850px;
+            position: relative;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        /* Decoración simple en esquina superior izquierda */
+        .invitation-card::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 150px;
+            height: 150px;
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><circle cx="60" cy="60" r="35" fill="%23c9b5a8" opacity="0.4"/><circle cx="110" cy="40" r="30" fill="%23e8ddd4" opacity="0.5"/><circle cx="50" cy="110" r="28" fill="%23b89f93" opacity="0.35"/></svg>');
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0.7;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* --- CONTENEDOR DE LA FOTO (PARA ENCAJAR EN EL HEXÁGONO) --- */
+        .photo-wrapper {
+            position: absolute;
+            top: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 220px;
+            height: 240px;
+            z-index: 2;
+            -webkit-clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+            clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+            overflow: hidden;
+        }
+
+        .couple-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .couple-photo.active {
+            opacity: 1;
+        }
+
+        /* --- TEXTOS --- */
+        .text-content {
+            margin-top: 320px;
+            padding: 0 30px 30px;
+            position: relative;
+            z-index: 3;
+        }
+
+        h1.intro {
+            font-family: 'Great Vibes', cursive;
+            background: linear-gradient(135deg, var(--color-gold) 0%, #d4a574 50%, var(--color-gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2.2rem;
+            margin: 0 0 5px;
+            font-weight: normal;
+            filter: drop-shadow(2px 2px 3px rgba(201, 169, 97, 0.3));
+        }
+
+        h2.names {
+            font-family: 'Great Vibes', cursive;
+            color: var(--color-burgundy);
+            font-size: 2.6rem;
+            margin: 0 0 10px;
+            line-height: 1.2;
+            text-shadow: 2px 2px 4px rgba(122, 56, 56, 0.1);
+            filter: drop-shadow(0 0 8px rgba(122, 56, 56, 0.2));
+            animation: nameGlow 4s ease-in-out infinite;
+        }
+
+        @keyframes nameGlow {
+            0%, 100% {
+                filter: drop-shadow(0 0 8px rgba(122, 56, 56, 0.2));
+                transform: scale(1);
+            }
+            50% {
+                filter: drop-shadow(0 0 15px rgba(201, 169, 97, 0.6)) drop-shadow(0 0 20px rgba(122, 56, 56, 0.4));
+                transform: scale(1.03);
+            }
+        }
+
+        .quote-container {
+            position: relative;
+            min-height: 65px;
+            margin-bottom: 15px;
+        }
+
+        p.quote {
+            color: var(--color-text);
+            font-style: italic;
+            font-size: 1rem;
+            margin: 0;
+            font-weight: 400;
+            line-height: 1.4;
+            position: absolute;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            left: 0;
+            right: 0;
+            top: 0;
+            text-shadow: 1px 1px 2px rgba(107, 75, 75, 0.1);
+        }
+
+        p.quote.active-quote {
+            opacity: 1;
+            animation: quoteGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes quoteGlow {
+            0%, 100% {
+                text-shadow: 1px 1px 2px rgba(107, 75, 75, 0.1);
+            }
+            50% {
+                text-shadow: 1px 1px 3px rgba(201, 169, 97, 0.3);
+            }
+        }
+
+        /* --- FECHA --- */
+        .date-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 15px 0 5px;
+            color: var(--color-burgundy);
+        }
+
+        .date-line {
+            height: 2px;
+            background-color: var(--color-gold);
+            flex-grow: 1;
+            margin: 0 15px;
+            max-width: 80px;
+        }
+
+        .date-details {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .big-number {
+            font-size: 4rem;
+            font-family: 'Playfair Display', serif;
+            background: linear-gradient(180deg, #7a3838 0%, #5e2121 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+            line-height: 1;
+            filter: drop-shadow(3px 3px 6px rgba(122, 56, 56, 0.5));
+            text-shadow: 2px 2px 8px rgba(94, 33, 33, 0.4);
+        }
+
+        .date-col {
+            display: flex;
+            flex-direction: column;
+            font-size: 0.95rem;
+            text-align: center;
+            font-weight: bold;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            text-shadow: 2px 2px 4px rgba(122, 56, 56, 0.2);
+        }
+
+        .month-year {
+            font-size: 1.1rem;
+            margin-top: 8px;
+            color: var(--color-burgundy);
+            text-align: center;
+            font-weight: bold;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            text-shadow: 1px 1px 2px rgba(122, 56, 56, 0.15);
+        }
+
+        /* --- PIE DE PAGINA --- */
+        .details {
+            color: var(--color-burgundy);
+            margin-top: 15px;
+            font-size: 1.05rem;
+            font-weight: 400;
+            line-height: 1.6;
+            text-shadow: 0 1px 2px rgba(122, 56, 56, 0.05);
+        }
+
+        .details strong {
+            font-weight: 600;
+            color: #5e2121;
+            text-shadow: 1px 1px 2px rgba(122, 56, 56, 0.1);
+        }
+
+        .rsvp {
+            margin-top: 15px;
+            font-size: 1rem;
+            color: var(--color-burgundy);
+            font-style: italic;
+            font-weight: 400;
+        }
+
+        .footer-msg {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.5rem;
+            color: #5e2121;
+            margin-top: 20px;
+            margin-bottom: 15px;
+            filter: drop-shadow(3px 3px 5px rgba(94, 33, 33, 0.4));
+            text-shadow: 2px 2px 6px rgba(94, 33, 33, 0.3);
+        }
+
+        /* --- ANIMACIONES --- */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes heartbeat {
+            0%, 100% {
+                transform: scale(1);
+            }
+            10% {
+                transform: scale(1.1);
+            }
+            20% {
+                transform: scale(1);
+            }
+            30% {
+                transform: scale(1.08);
+            }
+            40% {
+                transform: scale(1);
+            }
+        }
+
+        /* Canvas para Confeti */
+        #confetti-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        /* Aplicar animaciones a elementos */
+        h1.intro {
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+
+        h2.names {
+            animation: fadeInUp 1s ease-out 0.5s both;
+        }
+
+        .date-container {
+            animation: fadeInUp 1s ease-out 0.9s both;
+        }
+
+        .big-number {
+            animation: heartbeat 2s ease-in-out infinite;
+        }
+
+        .details {
+            animation: fadeInUp 1s ease-out 1.1s both;
+        }
+
+        .footer-msg {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* Efectos hover */
+        a {
+            transition: all 0.3s ease;
+        }
+
+        a:hover {
+            transform: scale(1.05);
+            text-shadow: 0 0 10px rgba(201, 169, 97, 0.5);
+        }
+
+    </style>
+</head>
+<body>
+
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- Música de fondo -->
+    <audio id="background-music" autoplay loop preload="auto">
+        <source src="Hasta mi final.mp3" type="audio/mpeg">
+        <source src="Hasta mi final.m4a" type="audio/mp4">
+    </audio>
+
+    <div class="invitation-card">
+        
+        <div class="photo-wrapper">
+            <img src="Foto1.jpeg" alt="Foto 1" class="couple-photo active">
+            <img src="Foto2.jpeg" alt="Foto 2" class="couple-photo">
+            <img src="Foto3.jpeg" alt="Foto 3" class="couple-photo">
+            <img src="Foto4.jpeg" alt="Foto 4" class="couple-photo">
+            <img src="Foto5.jpeg" alt="Foto 5" class="couple-photo">
+        </div>
+
+        <div class="text-content">
+            <h1 class="intro">Nuestro Matrimonio Civil</h1>
+            
+            <h2 class="names">Mario Franco <br>&<br> Marberly Sisley</h2>
+            
+            <div class="quote-container">
+                <p class="quote active-quote">
+                    Te quiero no por quien eres, sino por quien soy cuando estoy contigo.
+                </p>
+                <p class="quote">
+                    Amar es encontrar en la felicidad de otro tu propia felicidad.
+                </p>
+                <p class="quote">
+                    Andábamos sin buscarnos, pero sabiendo que andábamos para encontrarnos.
+                </p>
+            </div>
+
+            <div class="date-container">
+                <div class="date-line"></div>
+                <div class="date-details">
+                    <span class="date-col">VIERNES</span>
+                    <span class="big-number">20</span>
+                    <span class="date-col">DE FEBRERO</span>
+                </div>
+                <div class="date-line"></div>
+            </div>
+            <div class="month-year">A LAS 12:00 PM</div>
+
+            <div class="details">
+                <strong>Ceremonia Civil</strong><br>
+                Auditorio de la Municipalidad de Cayma<br>
+                <a href="https://maps.app.goo.gl/gj43KbdPSiLYF9MY6" target="_blank" style="color: var(--color-gold); text-decoration: none; font-style: italic;">Ver Ubicación en Mapa</a>
+            </div>
+
+            <div class="details">
+                <strong>Recepción</strong><br>
+                Calle Progreso 812, La Tomilla - Cayma<br>
+                <a href="https://maps.app.goo.gl/eStvn6m5EVGRe4C5A" target="_blank" style="color: var(--color-gold); text-decoration: none; font-style: italic;">Ver Ubicación en Mapa</a>
+            </div>
+
+            <p class="rsvp">
+                <a href="https://api.whatsapp.com/send/?phone=51967200531&text=Hola+quiero+confirmar+mi+asistencia+%F0%9F%A4%97&type=phone_number&app_absent=0" target="_blank" style="color: var(--color-burgundy); text-decoration: underline;">Confirmar Asistencia</a>
+            </p>
+
+            <p class="footer-msg">¡Te esperamos!</p>
+        </div>
+
+    </div>
+
+    <script>
+        // --- Música de Fondo Automática ---
+        const music = document.getElementById('background-music');
+        music.volume = 0.5;
+        let musicStarted = false;
+        
+        // Verificar que el archivo se carga correctamente
+        music.addEventListener('loadeddata', () => {
+            console.log('✓ Archivo de música cargado correctamente');
+        });
+        
+        music.addEventListener('error', (e) => {
+            console.error('❌ Error al cargar música:', e);
+            console.error('Verifica que el archivo "Hasta mi final.mp3" existe');
+        });
+        
+        // Función mejorada para iniciar música
+        function startMusic() {
+            if (musicStarted) return;
+            
+            console.log('🎵 Intentando reproducir música...');
+            
+            // Resetear el audio por si acaso
+            music.load();
+            
+            music.play()
+                .then(() => {
+                    console.log('✅ ¡MÚSICA REPRODUCIENDO EXITOSAMENTE!');
+                    musicStarted = true;
+                })
+                .catch((error) => {
+                    console.error('❌ Error al reproducir:', error.name, error.message);
+                    if (!musicStarted) {
+                        console.log('⏳ Esperando clic del usuario...');
+                    }
+                });
+        }
+        
+        // Intentar cuando la página cargue
+        window.addEventListener('load', () => {
+            setTimeout(startMusic, 100);
+        });
+        
+        // Capturar el PRIMER clic en CUALQUIER parte de la página
+        function playOnClick(e) {
+            console.log('👆 Click detectado, intentando reproducir...');
+            startMusic();
+            // Remover el listener después del primer clic
+            document.removeEventListener('click', playOnClick);
+            document.removeEventListener('touchstart', playOnClick);
+        }
+        
+        document.addEventListener('click', playOnClick);
+        document.addEventListener('touchstart', playOnClick);
+
+        // --- Confeti ---
+        const canvas = document.getElementById('confetti-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        const colors = ['#c9a961', '#b08d26', '#ffffff', '#fdfbf7', '#7a3838'];
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.onresize = resize;
+        resize();
+
+        class Particle {
+            constructor() { this.init(); }
+            init() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height - canvas.height;
+                this.size = Math.random() * 5 + 2;
+                this.speedX = Math.random() * 2 - 1;
+                this.speedY = Math.random() * 2 + 1;
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+                this.rotation = Math.random() * 360;
+                this.rotationSpeed = Math.random() * 4 - 2;
+            }
+            update() {
+                this.y += this.speedY;
+                this.x += this.speedX;
+                this.rotation += this.rotationSpeed;
+                if (this.y > canvas.height) this.init();
+            }
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation * Math.PI / 180);
+                ctx.fillStyle = this.color;
+                ctx.globalAlpha = 0.7;
+                ctx.fillRect(-this.size/2, -this.size/2, this.size, this.size);
+                ctx.restore();
+            }
+        }
+
+        for(let i=0; i<50; i++) particles.push(new Particle());
+
+        function animateConfetti() {
+            ctx.clearRect(0,0, canvas.width, canvas.height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animateConfetti);
+        }
+        animateConfetti();
+
+        // Slideshow automático de fotos
+        let currentPhoto = 0;
+        const photos = document.querySelectorAll('.couple-photo');
+        const totalPhotos = photos.length;
+
+        function showNextPhoto() {
+            photos[currentPhoto].classList.remove('active');
+            currentPhoto = (currentPhoto + 1) % totalPhotos;
+            photos[currentPhoto].classList.add('active');
+        }
+
+        // Cambiar foto cada 3 segundos
+        setInterval(showNextPhoto, 3000);
+
+        // Slideshow automático de frases
+        let currentQuote = 0;
+        const quotes = document.querySelectorAll('.quote');
+        const totalQuotes = quotes.length;
+
+        function showNextQuote() {
+            quotes[currentQuote].classList.remove('active-quote');
+            currentQuote = (currentQuote + 1) % totalQuotes;
+            quotes[currentQuote].classList.add('active-quote');
+        }
+
+        // Cambiar frase cada 5 segundos
+        setInterval(showNextQuote, 5000);
+    </script>
+
+</body>
+</html>
