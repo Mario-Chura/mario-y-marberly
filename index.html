@@ -354,9 +354,92 @@
             text-shadow: 0 0 10px rgba(201, 169, 97, 0.5);
         }
 
+        /* --- OVERLAY DE BIENVENIDA --- */
+        .welcome-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #7a3838 0%, #5a2828 50%, #3a1818 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            cursor: pointer;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+
+        .welcome-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .welcome-overlay h1 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 3.5rem;
+            color: #c9a961;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .welcome-overlay p {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            color: #fff;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+
+        .welcome-overlay .enter-btn {
+            padding: 15px 50px;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            color: #7a3838;
+            background: linear-gradient(135deg, #c9a961 0%, #e8d5a3 50%, #c9a961 100%);
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(201, 169, 97, 0.4);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        .welcome-overlay .enter-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 30px rgba(201, 169, 97, 0.6);
+        }
+
+        .welcome-overlay .hearts {
+            font-size: 2rem;
+            margin-top: 30px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
     </style>
 </head>
 <body>
+
+    <!-- Overlay de Bienvenida -->
+    <div class="welcome-overlay" id="welcome-overlay">
+        <h1>Mario & Marberly</h1>
+        <p>Te invitan a su Matrimonio Civil</p>
+        <button class="enter-btn" id="enter-btn">💍 Abrir Invitación 💍</button>
+        <div class="hearts">💕</div>
+    </div>
 
     <canvas id="confetti-canvas"></canvas>
 
@@ -426,50 +509,30 @@
     </div>
 
     <script>
-        // --- Música de Fondo ---
+        // --- Overlay de Bienvenida y Música ---
+        const welcomeOverlay = document.getElementById('welcome-overlay');
+        const enterBtn = document.getElementById('enter-btn');
         const music = document.getElementById('background-music');
         music.volume = 0.5;
-        let musicPlaying = false;
         
-        // Función simple para reproducir
-        function playMusic() {
-            if (musicPlaying) return;
+        // Función para entrar a la invitación y reproducir música
+        function enterInvitation() {
+            // Ocultar el overlay
+            welcomeOverlay.classList.add('hidden');
             
-            console.log('▶️ Reproduciendo música...');
-            
+            // Reproducir música inmediatamente
             music.play()
                 .then(() => {
                     console.log('✅ Música reproduciendo');
-                    musicPlaying = true;
-                    removeAllListeners();
                 })
                 .catch((error) => {
-                    console.error('❌ Error:', error.message);
+                    console.error('❌ Error al reproducir:', error.message);
                 });
         }
         
-        // Función para remover listeners
-        function removeAllListeners() {
-            document.removeEventListener('click', playMusic);
-            document.removeEventListener('touchstart', playMusic);
-            document.removeEventListener('touchend', playMusic);
-            document.removeEventListener('mousedown', playMusic);
-            document.body.removeEventListener('click', playMusic);
-            window.removeEventListener('click', playMusic);
-        }
-        
-        // Intentar reproducir automáticamente al cargar
-        window.addEventListener('load', () => {
-            playMusic();
-        });
-        
-        // Si no funciona automático, esperar CUALQUIER interacción
-        document.addEventListener('click', playMusic);
-        document.addEventListener('touchstart', playMusic);
-        document.addEventListener('touchend', playMusic);
-        document.addEventListener('mousedown', playMusic);
-        document.body.addEventListener('click', playMusic);
-        window.addEventListener('click', playMusic);
+        // Event listeners para el botón y el overlay completo
+        enterBtn.addEventListener('click', enterInvitation);
+        welcomeOverlay.addEventListener('click', enterInvitation);
 
         // --- Confeti ---
         const canvas = document.getElementById('confetti-canvas');
