@@ -575,6 +575,32 @@
         }
 
         /* Cuenta Regresiva */
+        .countdown-message {
+            font-family: 'Playfair Display', serif;
+            font-size: 1rem;
+            color: #e8d5a3;
+            margin-bottom: 15px;
+            opacity: 0;
+            animation: fadeSlideIn 1s ease-out 1.05s forwards;
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            font-style: italic;
+            letter-spacing: 1px;
+        }
+
+        @media (max-width: 480px) {
+            .countdown-message {
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .countdown-message {
+                font-size: 0.8rem;
+            }
+        }
+
         .countdown-container {
             display: flex;
             justify-content: center;
@@ -785,6 +811,7 @@
         <div class="date-preview"><span>20</span> de Febrero 2026</div>
         
         <!-- Cuenta Regresiva -->
+        <p class="countdown-message">💍 El momento más esperado llegará en...</p>
         <div class="countdown-container">
             <div class="countdown-item">
                 <span class="countdown-number" id="countdown-days">00</span>
