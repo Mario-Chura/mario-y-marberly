@@ -1,0 +1,572 @@
+﻿<!DOCTYPE html>
+<html translate="no" data-theme="light" lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="viewport" content="width=device-width"><title>Mario &amp; Marberly</title><meta name="author" content="Mario & Marberly"><meta name="color-scheme" content="light"><meta property="og:title" content="Mario &amp; Marberly"><meta property="og:description" content="¡Tenemos una noticia que daros!"><meta property="og:type" content="website"><meta name="google" content="notranslate"><link rel="preload" href="./assets/fonts/cc233da5aaec1a38-s.p.woff2" as="font" type="font/woff2" crossorigin="anonymous"><link rel="preload" href="./assets/fonts/8097b23520b24fd8-s.p.woff2" as="font" type="font/woff2" crossorigin="anonymous"><link rel="stylesheet" href="./assets/css/4acffa2954bbc9f0.css"><link rel="stylesheet" href="./assets/css/d2e84c79f697db76.css"></head>
+<script>
+  // FORCE SCROLL TO TOP IMMEDIATELY ON PAGE LOAD
+  if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+  }
+  window.scrollTo(0, 0);
+  
+  // Ensure intro screen is always shown on page load
+  document.addEventListener('DOMContentLoaded', function() {
+    window.scrollTo(0, 0);
+    const intro = document.getElementById('intro-screen');
+    if (intro) {
+      intro.classList.remove('hidden');
+      intro.style.display = 'flex';
+    }
+  });
+  
+  // Also force scroll on load event
+  window.addEventListener('load', function() {
+    window.scrollTo(0, 0);
+  });
+</script>
+</head><body translate="no" onload="window.scrollTo(0,0)">
+<style>
+  #intro-screen { 
+    display: flex !important; 
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 99999;
+  }
+  #intro-screen.hidden { display: none !important; }
+  
+  /* Animaciones de entrada para flores */
+  @keyframes flowerReveal {
+    from { 
+      opacity: 0; 
+      transform: translateY(30%) scale(0.7);
+    }
+    to { 
+      opacity: 1; 
+      transform: translateY(0) scale(1);
+    }
+  }
+  
+  /* Animaciones para nombres */
+  @keyframes slideFromLeft {
+    from { 
+      opacity: 0; 
+      transform: translateX(-10%);
+    }
+    to { 
+      opacity: 1; 
+      transform: translateX(0);
+    }
+  }
+  
+  @keyframes slideFromRight {
+    from { 
+      opacity: 0; 
+      transform: translateX(10%);
+    }
+    to { 
+      opacity: 1; 
+      transform: translateX(0);
+    }
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  @keyframes slideDown {
+    from { 
+      opacity: 0; 
+      transform: translateY(-15px);
+    }
+    to { 
+      opacity: 1; 
+      transform: translateY(0);
+    }
+  }
+  
+  .intro-flower-top {
+    animation: flowerReveal 0.8s ease-out 0.2s forwards;
+  }
+  
+  .intro-flower-bottom {
+    animation: flowerReveal 0.8s ease-out 0.4s forwards;
+  }
+  
+  .intro-name-left {
+    animation: slideFromLeft 0.8s ease-out 0.6s forwards;
+  }
+  
+  .intro-name-right {
+    animation: slideFromRight 0.8s ease-out 0.6s forwards;
+  }
+  
+  .intro-ampersand {
+    animation: fadeIn 0.8s ease-out 0.8s forwards;
+  }
+  
+  .intro-message {
+    animation: slideDown 0.6s ease-out 1s forwards;
+  }
+  
+  .intro-pulse {
+    animation: fadeIn 0.6s ease-out 1.2s forwards, lightpulse 2s ease-in-out 2s infinite;
+  }
+  
+  @keyframes lightpulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+  }
+  
+  /* Indicador de scroll */
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(10px); }
+  }
+  
+  .scroll-indicator {
+    animation: bounce 2s ease-in-out infinite;
+  }
+  
+  /* Overlay de transición */
+  #page-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(149, 147, 147, 0.26), rgba(120, 109, 109, 0.62));
+    z-index: 9999;
+    pointer-events: none;
+    transition: opacity 1s ease-out;
+  }
+  
+  #page-overlay.fade-out {
+    opacity: 0;
+  }
+  
+  /* Animación del fondo del botón (efecto 3D slide) */
+  @keyframes buttonBgSlide {
+    0% {
+      left: 12px;
+      top: 12px;
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      left: 6px;
+      top: 6px;
+      opacity: 1;
+    }
+  }
+  
+  .btn-animate::before {
+    animation: buttonBgSlide 0.6s ease-out forwards !important;
+  }
+  
+  /* Efecto hover del botón - desplazamiento suave */
+  button div.relative.border-\[\#1b1b1b\]::before {
+    transition: left 0.5s ease-out, top 0.5s ease-out !important;
+    z-index: -1 !important;
+  }
+  
+  button div.relative.border-\[\#1b1b1b\]:hover::before {
+    left: 0px !important;
+    top: 0px !important;
+  }
+  
+  /* Asegurar que el contenido del botón esté encima */
+  button div.relative.border-\[\#1b1b1b\] > * {
+    position: relative;
+    z-index: 2;
+  }
+  
+  /* Efecto del corazón */
+  @keyframes heartBeat {
+    0% { transform: scale(0.5); opacity: 0; }
+    50% { transform: scale(1.1); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  
+  .heart-animate {
+    animation: heartBeat 0.8s ease-out forwards;
+  }
+</style>
+<div id="page-overlay"></div>
+<div id="intro-screen">
+  <main class="min-h-screen w-full">
+    <section class="overflow-hidden mx-auto h-full min-h-screen w-full max-w-md overflow-x-clip sm:shadow-xl">
+      <button class="relative z-30 flex h-full min-h-[100dvh] w-full flex-col justify-center bg-cover bg-no-repeat" style="background-image: url('./assets/img/bg-cover.jpg'); opacity: 1; cursor: pointer;">
+        
+        <!-- Sombra y efectos -->
+        <div class="absolute bottom-0 left-0 right-0 top-0 h-full w-full">
+          <img class="h-full w-full object-cover opacity-20" src="./assets/img/shadow.png" alt="shadow">
+          <img class="absolute -right-[15%] -top-[10%] h-[25vh] w-[55%] object-cover" src="./assets/img/drops2.png" alt="shadow">
+          <img class="absolute -bottom-[5%] -left-[10%] h-[30vh] w-[55%] object-cover" src="./assets/img/drops2.png" alt="shadow">
+        </div>
+        
+        <!-- Contenido principal -->
+        <div class="flex w-full flex-col items-center justify-center gap-4 text-3xl leading-10">
+          <div class="relative w-full overflow-visible">
+            
+            <!-- Flores superiores -->
+            <div class="mx-auto w-4/5 overflow-hidden border-b border-[#ac8d61]">
+              <img src="./assets/img/flowers1-cover.png" alt="cover" class="w-full intro-flower-top" style="opacity: 0; transform: translateY(30%) scale(0.7);">
+            </div>
+            
+            <!-- Nombres - Mario & Marberly (estructura original) -->
+            <div class="relative font-amsterdam text-[#998067] overflow-visible py-8">
+              <p class="text-nowrap text-[50px] leading-[90px] intro-name-left" style="opacity: 0; transform: translateX(-10%);">Mario</p>
+              <div class="absolute bottom-0 left-0 right-0 top-0 flex h-full w-full items-center justify-center intro-ampersand" style="opacity: 0;">
+                <p class="__className_b2dd9e text-[100px] leading-[100px]">&amp;</p>
+              </div>
+              <p class="text-nowrap text-[50px] leading-[90px] intro-name-right" style="opacity: 0; transform: translateX(10%);">Marberly</p>
+            </div>
+            
+            <!-- Flores inferiores -->
+            <div class="mx-auto w-4/5 -scale-y-100 overflow-hidden border-b border-[#ac8d61]">
+              <img src="./assets/img/flowers1-cover.png" alt="cover" class="w-full intro-flower-bottom" style="opacity: 0; transform: translateY(30%) scale(0.7);">
+            </div>
+            
+          </div>
+        </div>
+        
+        <!-- Mensaje inferior -->
+        <div class="relative __className_b2dd9e">
+          <p class="mt-0 text-2xl md:mt-3 intro-message" style="opacity: 0; transform: translateY(-15px);">Tenemos una noticia...</p>
+          <p class="animate-lightpulse text-2xl text-[#998067] intro-pulse" style="opacity: 0;">¡Pulsa aquí y desliza!</p>
+          <!-- Indicador de scroll -->
+          <div class="scroll-indicator mt-6" style="opacity: 0; animation: fadeIn 0.6s ease-out 1.5s forwards, bounce 2s ease-in-out 2s infinite;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#998067" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mx-auto">
+              <path d="M12 5v14"></path>
+              <path d="m19 12-7 7-7-7"></path>
+            </svg>
+          </div>
+        </div>
+        
+      </button>
+    </section>
+  </main>
+</div>
+<!-- FIN INTRO SCREEN --><main class="min-h-screen w-full"><section class=" mx-auto h-full min-h-screen w-full max-w-md overflow-x-clip sm:shadow-xl"><div class="fixed left-0 top-0 z-10 max-h-screen min-h-screen w-full" style="background: linear-gradient(135deg, rgba(149, 147, 147, 0.26), rgba(120, 109, 109, 0.62));"></div><div class="block relative z-20 text-lg __className_b2dd9e text-[#1b1b1b] w-full items-center justify-center overflow-hidden bg-white text-center"><div class="relative"><div class="relative z-10 overflow-x-hidden" style="opacity: 1;"><img src="./assets/img/cover.jpg" class="relative h-auto w-full object-cover" style="filter: sepia(0%);"><div class="absolute bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden"><img class="relative h-full w-full object-cover" src="./assets/img/shadow.png" style="transform: scale(1.4); opacity: 1;"></div></div></div><div class="relative py-6"><div class="absolute z-[1] bottom-0 left-0 right-0 top-0 flex h-full w-full items-start"><img width="192" height="213" class="h-auto w-[192px] pointer-events-none -translate-x-1/3 -translate-y-1/4 scale-[1.5] object-contain" src="./assets/img/dropsgray.png" alt="drops"></div><p class="relative break-words px-2  z-20 text-4xl leading-[1.6] font-amsterdam text-[#998067]" style="opacity: 0; filter: blur(3px);"><span class="inline-block">Mario</span><span class="mx-2">&amp;</span><span class="inline-block">Marberly</span></p></div><div class="relative py-4"><div class="absolute z-10 bottom-0 left-0 right-0 top-0 flex h-full w-full items-end justify-end"><img class="-scale-x-1 pointer-events-none h-auto w-1/3 translate-x-1/4 scale-[1.6] object-contain" src="./assets/img/dropsgray.png" alt="drops"></div><div class="relative z-20 overflow-visible pb-8 pt-2 __className_b2dd9e"><div class="absolute bottom-0 left-0 right-0 top-0 overflow-visible"><img src="./assets/img/heart.png" alt="heart" class="mx-auto h-full" style="opacity: 0; transform: scale(0.8);"></div><p class="relative z-10 mx-auto w-1/2 pt-3 text-2xl uppercase" style="opacity: 0; transform: translateX(25px);">¡NOS CASAMOS!</p><div class="relative z-10 flex justify-center gap-1 pb-6 text-xl" style="opacity: 0; transform: translateX(-25px);"><span class="animate-pulsetext">25</span><span>·</span><span class="animate-pulsetext">04</span><span>·</span><span class="animate-pulsetext">26</span></div></div></div><div class="relative mt-12" style="opacity: 0;"><div class="group before:border-[#1b1b1b] after:border-[#1b1b1b] relative mx-auto w-[70%] bg-transparent py-8 before:absolute before:inset-0 before:border-l before:border-t after:absolute after:inset-0 after:border-b after:border-r md:w-3/4" style="perspective: 2000px; transform-style: preserve-3d; transform: rotateY(-20deg) skewY(3deg);"><div class="relative -left-[30px] flex w-[calc(100%+60px)] items-center bg-[#efe9db] py-6" style="transform: rotateY(20deg) skewY(-3deg);"><div class="absolute -left-4 -top-4 h-16 w-16 -scale-x-100 overflow-visible p-2"><img src="./assets/img/flower-dec.png" alt="fw" class="object-contain" style="transform: scale(1.2) rotate(108deg);"></div><div class="w-full px-9 text-center"><div class="">Cuando el destino une a dos almas, ni el tiempo ni la distancia pueden separarlas.</div></div></div></div></div><div class="mt-12 flex overflow-visible"><div class="relative grid w-full grid-cols-1 gap-4 overflow-visible pb-12"><div class="pointer-events-none absolute bottom-0 right-0 z-0 h-12 w-full overflow-visible"><img class="w-28" src="./assets/img/flower-dec2.png" alt="dec" style="transform: scale(-1.3) rotate(-25deg);"></div><div class="relative px-4"><h2 class="relative text-4xl z-20 text-left" style="opacity: 0; transform: translateX(25px);">CEREMONIA</h2><div class="absolute left-0 top-0 z-0 px-4 text-left" style="opacity: 0; transform: translateX(-25px);"><span class="__className_146def text-6xl inline-block translate-x-1/4 lowercase text-[#d6ccb5]">CEREMONIA</span></div></div><div class="px-4 pt-6"><span class="relative text-2xl"><span style="opacity: 1;">CATEDRAL DE PALMA</span><div class="pointer-events-none absolute bottom-0 left-0 right-0 top-0"><div class="absolute bottom-0 left-1 z-[-1] h-[10px] bg-[#efe9db]" style="width: 100%;"></div></div></span><p class="text-2xl italic text-[#d6ccb5]" style="opacity: 1; transform: none;">18:00 h</p><p style="opacity: 1; transform: none;">Plaça de la Seu, Centro</p><p style="opacity: 1; transform: none;">07001 Palma</p><div class="relative mt-4 overflow-visible"><button><div class="relative border-[#1b1b1b] flex items-center gap-1 border px-5 py-1.5  before:absolute before:left-1.5 before:top-1.5 before:-z-10 before:h-full before:w-full before:bg-[#efe9db] before:transition-all before:duration-500 before:content-[&#39;&#39;] hover:before:left-0 hover:before:top-0" style="opacity: 1;"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin h-5 w-5 animate-lightpulse"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg><span>Pulsa para ver en Maps</span></div></button></div></div></div></div><div class="mt-12 flex overflow-visible"><div class="relative grid w-full grid-cols-1 gap-4 overflow-visible py-12"><div class="pointer-events-none absolute bottom-0 right-0 z-0 h-12 w-full overflow-visible"><img class="relative -top-3 right-8 ml-auto w-14" src="./assets/img/flower-dec3.png" alt="dec" style="transform: rotate(-75deg);"></div><div class="relative px-4"><h2 class="relative text-4xl z-20 text-left" style="opacity: 0; transform: translateX(25px);">CELEBRACIÓN</h2><div class="absolute left-0 top-0 z-0 px-4 text-left" style="opacity: 0; transform: translateX(-25px);"><span class="__className_146def text-6xl inline-block translate-x-1/4 lowercase text-[#d6ccb5]">CELEBRACIÓN</span></div></div><div class="px-4 pt-6"><span class="relative text-2xl"><span style="opacity: 1;">RESTAURANTE S'OLIVARET</span><div class="pointer-events-none absolute bottom-0 left-0 right-0 top-0"><div class="absolute bottom-0 left-1 z-[-1] h-[10px] bg-[#efe9db]" style="width: 100%;"></div></div></span><p class="text-2xl italic text-[#d6ccb5]" style="opacity: 1; transform: none;">19:30 h</p><p style="opacity: 1; transform: none;">Carretera Alaró-Orient, KM 3,</p><p style="opacity: 1; transform: none;">07340 Alaró,</p><div class="relative mt-4 overflow-visible"><button><div class="relative border-[#1b1b1b] flex items-center gap-1 border px-5 py-1.5  before:absolute before:left-0 before:top-0 before:-z-10 before:h-full before:w-full before:bg-[#efe9db] before:transition-all before:duration-500 before:content-[&#39;&#39;] hover:before:left-0 hover:before:top-0" style="opacity: 1;"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin h-5 w-5 animate-lightpulse"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg><span>Pulsa para ver en Maps</span></div></button></div></div></div></div><div class="mt-12 flex overflow-visible"><div class="relative grid w-full grid-cols-1 gap-4 overflow-visible py-12"><div class="pointer-events-none absolute bottom-0 left-0 right-0 top-0 z-0 h-full w-full overflow-visible" style="background-image: url(&quot;./assets/img/drops-gray.png&quot;); background-size: 144px; background-repeat: no-repeat; background-position: 0% 100%;"></div><div class="relative px-4"><h2 class="relative text-4xl z-20 text-left" style="opacity: 0; transform: translateX(25px);">DRESS CODE</h2><div class="absolute left-0 top-0 z-0 px-4 text-left" style="opacity: 0; transform: translateX(-25px);"><span class="__className_146def text-6xl inline-block translate-x-1/4 lowercase text-[#d6ccb5]">DRESS CODE</span></div></div><div class="px-4 pt-8"><div><span class="relative text-2xl"><span style="opacity: 1;">FORMAL</span><div class="pointer-events-none absolute bottom-0 left-0 right-0 top-0"><div class="absolute bottom-0 left-1 z-[-1] h-[10px] bg-[#efe9db]" style="width: 100%;"></div></div></span><div style="opacity: 1; transform: none;">El blanco está reservado para la novia,<br>¡nos encantará verte en otros colores!</div><div class="relative mt-2 flex w-full flex-wrap justify-center"><div class="mx-auto flex items-center justify-center gap-2 py-4"><img src="./assets/img/suit.png" alt="dc1-1" class="h-44 w-auto object-cover" style="opacity: 1; transform: none;"><img src="./assets/img/dress.png" alt="dc1-2" class="h-44 w-auto object-cover" style="opacity: 1; transform: none;"></div></div></div></div></div></div><div class="mt-12 pb-12"><div class="relative px-4"><h2 class="relative text-4xl z-20 text-left" style="opacity: 0; transform: translateX(25px);">AUTOBÚS</h2><div class="absolute left-0 top-0 z-0 px-4 text-left" style="opacity: 0; transform: translateX(-25px);"><span class="__className_146def text-6xl inline-block translate-x-1/4 lowercase text-[#d6ccb5]">AUTOBÚS</span></div></div><div class="pt-8" style="opacity: 1; transform: none;"><div class="px-4">Para facilitar el traslado entre la Iglesia y el restaurante, pondremos a vuestra disposición el siguiente servicio de autobús:</div><div class="relative w-full px-3"><div class="relative"><div class="embla-carousel_embla__wD71s"><div class="embla-carousel_emblaContainer__NX79x" style="transform: translate3d(0px, 0px, 0px);"><div class="embla-carousel_emblaSlide__FEH4l w-full py-5" style="opacity: 1; transform: translate3d(0px, 0px, 0px);"><span class="relative text-nowrap text-center text-2xl"><span>IDA</span><div class="absolute bottom-[4px] left-2.5 z-[-1] h-[10px] bg-[#efe9db]" style="width: 100%;"></div></span><div class="my-2 text-center text-lg"><div>
+            <p>Catedral</p>
+            <p class="rotate-90">⟶</p>
+            <p>Restaurante</p>
+          </div></div><div class="text-[#d6ccb5] italic text-2xl my-2">19:00 h</div><button class="group mx-auto flex flex-col items-center justify-center gap-2 text-center"><img class="w-28 mt-3 mx-auto" src="./assets/img/bus.png" alt="url" width="56"><div class="relative border-[#1b1b1b] flex items-center gap-1 border px-5 py-1.5  before:absolute before:left-0 before:top-0 before:-z-10 before:h-full before:w-full before:bg-[#efe9db] before:transition-all before:duration-500 before:content-[&#39;&#39;] group-hover:before:left-0 group-hover:before:top-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin h-5 w-5 animate-lightpulse"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg><span class="">Pulsa para ver parada</span></div></button></div><div class="embla-carousel_emblaSlide__FEH4l w-full py-5" style="opacity: 1;"><span class="relative text-nowrap text-center text-2xl"><span>VUELTA</span><div class="absolute bottom-[4px] left-2.5 z-[-1] h-[10px] bg-[#efe9db]" style="width: 100%;"></div></span><div class="my-2 text-center text-lg"><div>
+            <p>Restaurante</p>
+            <p class="rotate-90">⟶</p>
+            <p>Plaza España</p>
+          </div></div><div class="text-[#d6ccb5] italic text-2xl my-2">02:00 h</div><button class="group mx-auto flex flex-col items-center justify-center gap-2 text-center"><img class="w-28 mt-3 mx-auto" src="./assets/img/bus.png" alt="url" width="56"><div class="relative border-[#1b1b1b] flex items-center gap-1 border px-5 py-1.5  before:absolute before:left-0 before:top-0 before:-z-10 before:h-full before:w-full before:bg-[#efe9db] before:transition-all before:duration-500 before:content-[&#39;&#39;] group-hover:before:left-0 group-hover:before:top-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin h-5 w-5 animate-lightpulse"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg><span class="">Pulsa para ver parada</span></div></button></div></div></div><div class="pointer-events-none absolute bottom-0 left-0 right-0 top-0 flex items-center"><div class="mb-4 flex w-full justify-between"><button class="pointer-events-auto flex h-8 w-8 items-center justify-center rounded-full border bg-white shadow-md"><img class="p-1.5 opacity-70" width="32" height="32" src="./assets/img/arrow-left.svg" alt="&lt;"></button><button class="pointer-events-auto flex h-8 w-8 animate-marquee-right items-center justify-center rounded-full border bg-white shadow-md"><img class="p-1.5 opacity-70" width="32" height="32" src="./assets/img/arrow-right.svg" alt="&gt;"></button></div></div><div class="mt-1 flex justify-center"><div class="flex flex-wrap items-center justify-end gap-1"><button type="button" class="h-4 w-4"><div class="h-3 w-3 rounded-full bg-black/80"></div></button><button type="button" class="h-4 w-4"><div class="h-3 w-3 rounded-full scale-75 bg-gray-400"></div></button></div></div></div></div></div></div><div class="mt-12 pb-12"><div class="relative px-4"><h2 class="relative text-4xl z-20 text-left" style="opacity: 0; transform: translateX(25px);">ALOJAMIENTO</h2><div class="absolute left-0 top-0 z-0 px-4 text-left" style="opacity: 0; transform: translateX(-25px);"><span class="__className_146def text-6xl inline-block translate-x-1/4 lowercase text-[#d6ccb5]">ALOJAMIENTO</span></div></div><div class="pt-8" style="opacity: 1; transform: none;"><div class="px-4">Si queréis hacer noche por la zona, os dejamos algunas opciones para que podáis gestionar la reserva.</div><div class="relative w-full px-3"><div class="relative"><div class="embla-carousel_embla__wD71s"><div class="embla-carousel_emblaContainer__NX79x" style="transform: translate3d(0px, 0px, 0px);"><div class="embla-carousel_emblaSlide__FEH4l w-full py-5" style="opacity: 1; transform: translate3d(0px, 0px, 0px);"><span class="relative text-nowrap text-center text-2xl"><span>FINCA CAN ESTADES</span><div class="absolute bottom-[4px] left-2.5 z-[-1] h-[10px] bg-[#efe9db]" style="width: 100%;"></div></span><div class="my-2 text-center text-lg">+34 971 670 558</div><button class="group mx-auto flex flex-col items-center justify-center gap-2 text-center"><img class="w-28 mx-auto" src="./assets/img/bed.png" alt="url" width="56"><div class="relative border-[#1b1b1b] flex items-center gap-1 border px-5 py-1.5  before:absolute before:left-0 before:top-0 before:-z-10 before:h-full before:w-full before:bg-[#efe9db] before:transition-all before:duration-500 before:content-[&#39;&#39;] group-hover:before:left-0 group-hover:before:top-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin h-5 w-5 animate-lightpulse"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg><span class="">Pulsa para ver en Maps</span></div></button></div><div class="embla-carousel_emblaSlide__FEH4l w-full py-5" style="opacity: 1;"><span class="relative text-nowrap text-center text-2xl"><span>SON MALERO</span><div class="absolute bottom-[4px] left-2.5 z-[-1] h-[10px] bg-[#efe9db]" style="width: 100%;"></div></span><div class="my-2 text-center text-lg">+34 971 670 301</div><button class="group mx-auto flex flex-col items-center justify-center gap-2 text-center"><img class="w-28 mx-auto" src="./assets/img/bed.png" alt="url" width="56"><div class="relative border-[#1b1b1b] flex items-center gap-1 border px-5 py-1.5  before:absolute before:left-0 before:top-0 before:-z-10 before:h-full before:w-full before:bg-[#efe9db] before:transition-all before:duration-500 before:content-[&#39;&#39;] group-hover:before:left-0 group-hover:before:top-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin h-5 w-5 animate-lightpulse"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg><span class="">Pulsa para ver en Maps</span></div></button></div></div></div><div class="pointer-events-none absolute bottom-0 left-0 right-0 top-0 flex items-center"><div class="mb-4 flex w-full justify-between"><button class="pointer-events-auto flex h-8 w-8 items-center justify-center rounded-full border bg-white shadow-md"><img class="p-1.5 opacity-70" width="32" height="32" src="./assets/img/arrow-left.svg" alt="&lt;"></button><button class="pointer-events-auto flex h-8 w-8 animate-marquee-right items-center justify-center rounded-full border bg-white shadow-md"><img class="p-1.5 opacity-70" width="32" height="32" src="./assets/img/arrow-right.svg" alt="&gt;"></button></div></div><div class="mt-1 flex justify-center"><div class="flex flex-wrap items-center justify-end gap-1"><button type="button" class="h-4 w-4"><div class="h-3 w-3 rounded-full bg-black/80"></div></button><button type="button" class="h-4 w-4"><div class="h-3 w-3 rounded-full scale-75 bg-gray-400"></div></button></div></div></div></div></div></div><div class="relative mt-12" style="opacity: 0;"><div class="group before:border-[#1b1b1b] after:border-[#1b1b1b] relative mx-auto w-[70%] bg-transparent py-8 before:absolute before:inset-0 before:z-20 before:border-l before:border-t after:absolute after:inset-0 after:z-0 after:border-b after:border-r md:w-3/4" style="perspective: 2000px; transform-style: preserve-3d; transform: rotateY(20deg) skewY(-3deg);"><div class="relative -left-[30px] z-10 flex w-[calc(100%+60px)] items-center bg-[#efe9db] py-6" style="transform: rotateY(-20deg) skewY(3deg);"><div class="w-full px-9 text-center"><div class="">Queremos que seáis testigos de nuestro amor acompañándonos en este día tan especial</div></div></div></div></div><div class="relative mt-12 pb-12"><div class="pointer-events-none absolute bottom-0 left-0 right-0 top-0 z-0 h-full w-full overflow-visible" style="background-image: url(&quot;./assets/img/drops-gray.png&quot;); background-size: 144px; background-repeat: no-repeat; background-position: 0% 100%;"></div><div class="relative px-4"><h2 class="relative text-4xl z-20 text-left" style="opacity: 0; transform: translateX(25px);">ASISTENCIA</h2><div class="absolute left-0 top-0 z-0 px-4 text-left" style="opacity: 0; transform: translateX(-25px);"><span class="__className_146def text-6xl inline-block translate-x-1/4 lowercase text-[#d6ccb5]">ASISTENCIA</span></div></div><div class="relative w-full px-4 pt-8 text-2xl"><span class="relative text-2xl"><span style="opacity: 1;">¿Nos acompañas?</span><div class="pointer-events-none absolute bottom-0 left-0 right-0 top-0"><div class="absolute bottom-0 left-1 z-[-1] h-[10px] bg-[#efe9db]" style="width: 100%;"></div></div></span></div><div class="relative z-20 mt-4 "><button type="button"><div class="group mx-auto flex flex-col items-center justify-center gap-2 text-center"><img src="./assets/img/assist.png" class="relative mx-auto w-20" alt="assist" style="opacity: 0; transform: scale(0.8);"><div class="relative border-[#1b1b1b] flex items-center gap-1 border px-5 py-1.5 before:absolute before:left-0 before:top-0 before:-z-10 before:h-full before:w-full before:bg-[#efe9db] before:transition-all before:duration-500 before:content-[&#39;&#39;] group-hover:before:left-0 group-hover:before:top-0" style="opacity: 1;"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-pen h-5 w-5 animate-lightpulse"><path d="M11.5 15H7a4 4 0 0 0-4 4v2"></path><path d="M21.378 16.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"></path><circle cx="10" cy="7" r="4"></circle></svg><span class="">Pulsa aquí para confirmar</span></div></div></button></div></div><div class="relative mt-12 pb-12"><div class="relative px-4"><h2 class="relative text-4xl z-20 text-left" style="opacity: 0; transform: translateX(25px);">ITINERARIO</h2><div class="absolute left-0 top-0 z-0 px-4 text-left" style="opacity: 0; transform: translateX(-25px);"><span class="__className_146def text-6xl inline-block translate-x-1/4 lowercase text-[#d6ccb5]">ITINERARIO</span></div></div><div class="relative grid grid-cols-1 place-items-center justify-center gap-4 px-8"><div class="pointer-events-none absolute bottom-0 right-0 z-0 h-12 w-full overflow-visible"><img class="relative -right-4 top-4 ml-auto w-24" src="./assets/img/flower-quote2.png" alt="dec" style="transform: scale(-1) rotate(-60deg);"></div><div class="relative z-20 flex w-full flex-col items-center justify-center gap-5 pt-12"><div class="flex w-auto items-center gap-3" style="opacity: 1; transform: none;"><div class="flex flex-1 flex-col items-center justify-center"><div class="relative text-4xl italic"><span>18:00 h</span><div class="pointer-events-none absolute bottom-0 left-0 right-0 top-0"><div class="absolute bottom-[4px] left-2.5 z-[-1] h-[10px] bg-[#efe9db]" style="width: 100%;"></div></div></div><div class="text-2xl uppercase">Ceremonia</div></div></div><div class="flex w-auto items-center gap-3" style="opacity: 1; transform: none;"><div class="flex flex-1 flex-col items-center justify-center"><div class="relative text-4xl italic"><span>19:00 h</span><div class="pointer-events-none absolute bottom-0 left-0 right-0 top-0"><div class="absolute bottom-[4px] left-2.5 z-[-1] h-[10px] bg-[#efe9db]" style="width: 100%;"></div></div></div><div class="text-2xl uppercase">Recepción</div></div></div><div class="flex w-auto items-center gap-3" style="opacity: 1; transform: none;"><div class="flex flex-1 flex-col items-center justify-center"><div class="relative text-4xl italic"><span>20:00 h</span><div class="pointer-events-none absolute bottom-0 left-0 right-0 top-0"><div class="absolute bottom-[4px] left-2.5 z-[-1] h-[10px] bg-[#efe9db]" style="width: 100%;"></div></div></div><div class="text-2xl uppercase">Banquete</div></div></div><div class="flex w-auto items-center gap-3" style="opacity: 1; transform: none;"><div class="flex flex-1 flex-col items-center justify-center"><div class="relative text-4xl italic"><span>21:30 h</span><div class="pointer-events-none absolute bottom-0 left-0 right-0 top-0"><div class="absolute bottom-[4px] left-2.5 z-[-1] h-[10px] bg-[#efe9db]" style="width: 100%;"></div></div></div><div class="text-2xl uppercase">Fiesta</div></div></div></div></div></div><div class="relative "><div class="relative z-10 overflow-x-hidden" style="opacity: 1;"><img src="./assets/img/0.jpg" class="relative" style="filter: sepia(100%);"><div class="absolute bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden"><img class="relative h-full w-full object-cover" src="./assets/img/shadow.png" style="opacity: 0.45; transform: scale(1.4) rotateY(-15deg) skewY(4deg);"></div></div></div><div class="relative mt-12 pb-12"><div class="pointer-events-none absolute bottom-0 left-0 right-0 top-0 z-0 h-full w-full overflow-visible" style="background-image: url(&quot;./assets/img/drops-gray.png&quot;); background-size: 144px; background-repeat: no-repeat; background-position: 115% 100%;"></div><div class="relative px-4"><h2 class="relative text-4xl z-20 text-left" style="opacity: 0; transform: translateX(25px);">REGALO</h2><div class="absolute left-0 top-0 z-0 px-4 text-left" style="opacity: 0; transform: translateX(-25px);"><span class="__className_146def text-6xl inline-block translate-x-1/4 lowercase text-[#d6ccb5]">REGALO</span></div></div><div class="relative grid grid-cols-1 place-items-center justify-center gap-2 px-4"><div class="mt-12 px-4" style="opacity: 0; transform: translateY(15px);">Nuestro mejor regalo es que estéis con nosotros en nuestro día, pero si queréis hacernos un obsequio, ¡aquí está nuestro número de cuenta!</div><div class="relative"><div class="relative mt-2"><p>Mario y Marberly</p><button class="relative flex gap-1 border border-[#1b1b1b] px-5 py-1.5 text-base before:absolute before:left-0 before:top-0 before:-z-10 before:h-full before:w-full before:bg-[#efe9db] before:transition-all before:duration-500 before:content-[&#39;&#39;] hover:before:left-0 hover:before:top-0" style="opacity: 1;"><img src="./assets/img/copy-new.svg" class="animate-lightpulse" alt="copy"><span id="gift-num-1-1">ESXX XXXX XXXX XXXX XXXX</span></button></div></div></div></div><div class="relative mt-12 pb-12"><div class="relative px-4"><h2 class="relative text-4xl z-20 text-left" style="opacity: 0; transform: translateX(25px);">ÁLBUM DE FOTOS</h2><div class="absolute left-0 top-0 z-0 px-4 text-left" style="opacity: 0; transform: translateX(-25px);"><span class="__className_146def text-6xl inline-block translate-x-1/4 lowercase text-[#d6ccb5]">ÁLBUM DE FOTOS</span></div></div><div class="relative grid grid-cols-1 place-items-center justify-center gap-2 px-4"><span class="relative mt-12"><span style="opacity: 1;">¡Ayúdanos a inmortalizar cada momento!</span><div class="pointer-events-none absolute bottom-0 left-0 right-0 top-0"><div class="absolute bottom-0 left-1 z-[-1] h-[10px] bg-[#efe9db]" style="width: 100%;"></div></div></span><div class="absolute -bottom-3 right-3"><img src="./assets/img/photoqr.png" width="100" class="mx-auto w-24 object-cover" style="opacity: 1; transform: none rotate(30deg);"></div><p style="opacity: 1; transform: none;">Escanea este QR o haz clic en él y comparte las fotos que tomes durante la boda. ¡Nos hará muchísima ilusión verlas!</p><a target="_blank" rel="noreferrer" href="https://photos.app.goo.gl/XdjgDkia8WV5GkzJ7"><img src="./assets/img/qr.png" width="100" class="mx-auto w-32 object-cover" style="opacity: 1;"></a><div class="relative"><div class="relative mt-2"><p>Código del álbum</p><button class="relative flex gap-1 border border-[#1b1b1b] px-5 py-1.5 text-base text-[#1b1b1b] before:absolute before:left-0 before:top-0 before:-z-10 before:h-full before:w-full before:bg-[#efe9db] before:transition-all before:duration-500 before:content-[&#39;&#39;] hover:before:left-0 hover:before:top-0" style="opacity: 1;"><img class="animate-lightpulse" src="./assets/img/copy-new.svg" alt="copy"><span id="qr-1">BODA-M&amp;M</span></button></div></div></div></div><div class="relative py-12"><div class="relative overflow-hidden"><div class="relative" style="opacity: 1;"><div class="relative"><div class="carousel-album_embla__mfewC"><div class="carousel-album_emblaContainer__nBGH0" style="transform: translate3d(0px, 0px, 0px);"><div class="carousel-album_emblaSlide__GppdZ relative w-full overflow-hidden" style="transform: translate3d(0px, 0px, 0px);"><img src="./assets/img/1.jpg" class="relative w-full" alt="img"></div><div class="carousel-album_emblaSlide__GppdZ relative w-full overflow-hidden"><img src="./assets/img/2.jpg" class="relative w-full" alt="img"></div><div class="carousel-album_emblaSlide__GppdZ relative w-full overflow-hidden"><img src="./assets/img/3.jpg" class="relative w-full" alt="img"></div></div></div><div class="pointer-events-none absolute bottom-0 left-0 right-0 top-0 z-20 flex items-center"><div class="mb-4 flex w-full justify-between px-2"><button class="pointer-events-auto flex h-8 w-8 items-center justify-center rounded-full border bg-white shadow-md"><img class="p-1.5 opacity-70" width="32" height="32" src="./assets/img/arrow-left.svg" alt="&lt;"></button><button class="pointer-events-auto flex h-8 w-8 animate-marquee-right items-center justify-center rounded-full border bg-white shadow-md"><img class="p-1.5 opacity-70" width="32" height="32" src="./assets/img/arrow-right.svg" alt="&gt;"></button></div></div><div class="mt-1 flex justify-center"><div class="flex flex-wrap items-center justify-end gap-1"><button type="button" class="h-4 w-4"><div class="h-3 w-3 rounded-full bg-black/80"></div></button><button type="button" class="h-4 w-4"><div class="h-3 w-3 rounded-full scale-75 border-2 border-black bg-gray-400"></div></button><button type="button" class="h-4 w-4"><div class="h-3 w-3 rounded-full scale-75 border-2 border-black bg-gray-400"></div></button></div></div></div></div><div class="pointer-events-none absolute bottom-0 left-0 right-0 top-0 h-[calc(100%-20px)] w-full overflow-hidden"><img class="relative h-full w-full object-cover" src="./assets/img/shadow.png" style="transform: scale(1.4) rotateY(-15deg) skewY(5deg); opacity: 1;"></div></div></div><div class="relative mt-12 pb-12"><div class="relative px-4"><h2 class="relative text-4xl z-20 text-left" style="opacity: 0; transform: translateX(25px);">NOS VEMOS EN...</h2><div class="absolute left-0 top-0 z-0 px-4 text-left" style="opacity: 0; transform: translateX(-25px);"><span class="__className_146def text-6xl inline-block translate-x-1/4 lowercase text-[#d6ccb5]">NOS VEMOS EN...</span></div></div><div class="relative top-6 grid grid-cols-1 place-items-center justify-center gap-4"><div class="flex justify-center gap-4 pb-8"><div class="flex flex-col"><span id="countdown-days" class="text-4xl">--</span><span class="text-2xl italic">Días</span></div><div class="flex flex-col"><span id="countdown-hours" class="text-4xl">--</span><span class="text-2xl italic">Horas</span></div><div class="flex flex-col"><span id="countdown-mins" class="text-4xl">--</span><span class="text-2xl italic">Mins</span></div><div class="flex flex-col"><span id="countdown-secs" class="text-4xl">--</span><span class="text-2xl italic">Segs</span></div></div></div></div><div class="flex" style="opacity: 0.7; transform: translateY(25px) scale(0.7);"><img src="./assets/img/dec-bot.png" class="w-full object-contain" alt="flower-dec"></div><audio id="song" loop="" controls="" class="invisible fixed"><source src="./assets/media/Fruto%20del%20Madero%20-%20Mi%20Mejor%20Decisi%C3%B3n.mp3" type="audio/mpeg"><track kind="captions"></audio></div><div id="bottom-controls" class="pointer-events-none fixed bottom-0 z-20 h-12 w-full max-w-md"><div class="relative mx-5 flex"><button class="pointer-events-auto ml-auto flex h-[32px] w-[32px] items-center justify-center rounded-full bg-[#575757]" style="opacity: 1;"><img src="./assets/img/speaker-wave-white.svg" alt="x"></button></div></div></section></main><div class="pointer-events-none fixed bottom-16 z-30 w-full" style="opacity: 1;"><div class="mx-auto flex w-full max-w-md justify-end"><div class="pointer-events-auto relative"><button class="mr-5 flex h-[32px] w-[32px] items-center justify-center rounded-full bg-[#575757]"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-palette h-6 w-6"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"></circle><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"></circle><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"></circle><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"></circle><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"></path></svg></button></div></div></div></div></body></html>
+
+<script>
+// ==========================================
+// AUDIO CONTROL
+// ==========================================
+let audioPlaying = false;
+const song = document.getElementById('song');
+const audioBtn = document.querySelector('#bottom-controls button');
+const audioBtnImg = audioBtn ? audioBtn.querySelector('img') : null;
+const pageOverlay = document.getElementById('page-overlay');
+
+// UNIFIED INTRO CLICK HANDLER
+let introClickHandled = false;
+
+function handleIntroClick() {
+  if (introClickHandled) return;
+  introClickHandled = true;
+  
+  console.log('Handling intro click');
+  
+  // Hide intro screen with transition
+  const introScreen = document.getElementById('intro-screen');
+  introScreen.style.transition = 'opacity 0.6s ease-out';
+  introScreen.style.opacity = '0';
+  setTimeout(() => {
+    introScreen.classList.add('hidden');
+    introScreen.style.display = 'none';
+  }, 600);
+  
+  // Fade out the overlay
+  if (pageOverlay) {
+    pageOverlay.classList.add('fade-out');
+    setTimeout(() => { pageOverlay.style.display = 'none'; }, 1000);
+  }
+  
+  // Play audio from second 10
+  if (song && !audioPlaying) {
+    song.currentTime = 10;
+    song.play().then(() => {
+      audioPlaying = true;
+      if (audioBtnImg) audioBtnImg.style.opacity = '1';
+    }).catch(e => console.log('Audio autoplay blocked'));
+  }
+  
+  // Trigger animations after intro fades out completely
+  setTimeout(() => {
+    animateVisibleElements();
+  }, 700);
+}
+
+document.getElementById('intro-screen').addEventListener('click', handleIntroClick);
+
+// Toggle audio button
+if (audioBtn) {
+  audioBtn.addEventListener('click', function() {
+    if (audioPlaying) {
+      song.pause();
+      audioPlaying = false;
+      if (audioBtnImg) audioBtnImg.style.opacity = '0.5';
+    } else {
+      song.play();
+      audioPlaying = true;
+      if (audioBtnImg) audioBtnImg.style.opacity = '1';
+    }
+  });
+}
+
+// ==========================================
+// SCROLL ANIMATIONS - COMPLETE SYSTEM (REPEATABLE)
+// ==========================================
+let elementStates = new Map();
+let observer = null;
+let initialAnimationDone = false; // Flag to prevent observer interference
+
+function setupAnimations() {
+  // STEP 1: Selectors for elements that should animate
+  const selectorsToAnimate = [
+    // Names section
+    '.relative.py-6 > p.font-amsterdam',
+    // Heart and NOS CASAMOS section
+    'img[alt="heart"]',
+    '.text-2xl.uppercase',
+    '.flex.justify-center.gap-1.pb-6.text-xl',
+    // Quote boxes
+    '.relative.mt-12 > .group',
+    '.group.before\\:border',
+    // Section titles (h2)
+    'h2.relative.text-4xl',
+    // Section subtitle backgrounds  
+    '.absolute.left-0.top-0.z-0.px-4',
+    // Dress code images
+    'img[alt="dc1-1"]',
+    'img[alt="dc1-2"]',
+    // Itinerary items
+    '.flex.w-auto.items-center.gap-3',
+    // Assist image
+    'img[alt="assist"]',
+    // Gift section text
+    '.mt-12.px-4 p',
+    // Bottom flower decoration
+    '.flex > img[alt="flower-dec"]',
+    // Info text paragraphs
+    '.px-4.text-center p',
+    '.text-xs.font-medium.tracking-wide',
+    // Location names and details
+    '.px-4.pt-6 span.relative.text-2xl',
+    '.px-4.pt-6 p',
+    // Buttons with Maps
+    '.relative.mt-4 button',
+    'button div.relative.border-\\[\\#1b1b1b\\]',
+    // Button inner divs with bg effect
+    'div.relative.border-\\[\\#1b1b1b\\].flex.items-center',
+    // Dress code section content
+    '.px-4.pt-8 span.relative.text-2xl',
+    '.px-4.pt-8 div[style]',
+    // Images container
+    '.mx-auto.flex.items-center.justify-center.gap-2',
+    // Cover image section
+    '.relative.z-10.overflow-x-hidden img',
+    // Separator quote boxes
+    '.group .relative.-left-\\[30px\\]',
+    // Bus and accommodation sections
+    '.embla-carousel_emblaSlide__FEH4l',
+    // Countdown
+    '.flex.justify-center.gap-4.pb-8 > div'
+  ];
+  
+  // STEP 2: Hide elements and save their initial transforms
+  selectorsToAnimate.forEach(selector => {
+    try {
+      document.querySelectorAll(selector).forEach(el => {
+        if (el.closest('#intro-screen')) return;
+        if (elementStates.has(el)) return;
+        
+        let initialState = {};
+        
+        // Set initial hidden state based on element type
+        if (el.tagName === 'H2') {
+          initialState = { opacity: '0', transform: 'translateX(25px)', filter: 'none' };
+        } else if (el.classList.contains('absolute') && el.classList.contains('left-0')) {
+          initialState = { opacity: '0', transform: 'translateX(-25px)', filter: 'none' };
+        } else if (el.alt === 'heart' || el.alt === 'assist') {
+          initialState = { opacity: '0', transform: 'scale(0.8)', filter: 'none' };
+        } else if (el.classList.contains('group') || el.classList.contains('embla-carousel_emblaSlide__FEH4l')) {
+          initialState = { opacity: '0', transform: 'translateY(30px)', filter: 'none' };
+        } else if (el.classList.contains('font-amsterdam')) {
+          initialState = { opacity: '0', transform: 'none', filter: 'blur(3px)' };
+        } else if (el.alt === 'dc1-1') {
+          initialState = { opacity: '0', transform: 'translateX(-20px) scale(0.9)', filter: 'none' };
+        } else if (el.alt === 'dc1-2') {
+          initialState = { opacity: '0', transform: 'translateX(20px) scale(0.9)', filter: 'none' };
+        } else if (el.classList.contains('border') && el.classList.contains('relative') && el.classList.contains('flex')) {
+          // Button div with background effect
+          initialState = { opacity: '0', transform: 'translateY(10px)', filter: 'none' };
+        } else if (el.tagName === 'BUTTON' || el.closest('button')) {
+          initialState = { opacity: '0', transform: 'scale(0.95)', filter: 'none' };
+        } else {
+          initialState = { opacity: '0', transform: 'translateY(15px)', filter: 'none' };
+        }
+        
+        // Apply initial state
+        el.style.opacity = initialState.opacity;
+        el.style.transform = initialState.transform;
+        el.style.filter = initialState.filter;
+        
+        // Store for later reset
+        elementStates.set(el, initialState);
+      });
+    } catch (e) {}
+  });
+  
+  // Also include elements already with opacity: 0 in HTML
+  document.querySelectorAll('[style*="opacity: 0"], [style*="opacity:0"]').forEach(el => {
+    if (!el.closest('#intro-screen') && !elementStates.has(el)) {
+      const initialState = { 
+        opacity: '0', 
+        transform: el.style.transform || 'translateY(15px)', 
+        filter: el.style.filter || 'none' 
+      };
+      el.style.opacity = initialState.opacity;
+      el.style.transform = initialState.transform;
+      elementStates.set(el, initialState);
+    }
+  });
+}
+
+function animateElement(el, delay = 0) {
+  setTimeout(() => {
+    // Heart special animation
+    if (el.alt === 'heart') {
+      el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+      el.style.opacity = '1';
+      el.style.transform = 'scale(1)';
+      el.classList.add('heart-animate');
+      return;
+    }
+    
+    // Button with background effect
+    if (el.classList.contains('border') && el.classList.contains('relative') && el.querySelector('svg')) {
+      el.style.transition = 'opacity 0.5s ease-out, transform 0.5s ease-out';
+      el.style.opacity = '1';
+      el.style.transform = 'none';
+      el.classList.add('btn-animate');
+      return;
+    }
+    
+    // Quote box animation
+    if (el.classList.contains('group') || el.classList.contains('embla-carousel_emblaSlide__FEH4l')) {
+      el.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
+      el.style.opacity = '1';
+      el.style.transform = 'none';
+      return;
+    }
+    
+    // Default animation
+    el.style.transition = 'opacity 0.7s ease-out, transform 0.7s ease-out, filter 0.7s ease-out';
+    el.style.opacity = '1';
+    el.style.transform = 'none';
+    el.style.filter = 'none';
+  }, delay);
+}
+
+function resetElement(el) {
+  const initialState = elementStates.get(el);
+  if (initialState) {
+    el.style.transition = 'none';
+    el.style.opacity = initialState.opacity;
+    el.style.transform = initialState.transform;
+    el.style.filter = initialState.filter;
+    
+    if (el.alt === 'heart') {
+      el.classList.remove('heart-animate');
+    }
+    if (el.classList.contains('btn-animate')) {
+      el.classList.remove('btn-animate');
+    }
+  }
+}
+
+function startObserver() {
+  if (observer) return;
+  
+  const observerCallback = (entries) => {
+    entries.forEach(entry => {
+      const el = entry.target;
+      
+      if (entry.isIntersecting) {
+        animateElement(el);
+      } else {
+        resetElement(el);
+      }
+    });
+  };
+
+  observer = new IntersectionObserver(observerCallback, {
+    threshold: 0.1,
+    rootMargin: '0px 0px -20px 0px'
+  });
+  
+  elementStates.forEach((state, el) => observer.observe(el));
+}
+
+// Animate visible elements immediately (for intro click) with cascade effect
+function animateVisibleElements() {
+  // No hacer nada - dejar que el observer maneje todas las animaciones
+  // cuando el usuario hace scroll
+  initialAnimationDone = true;
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  setupAnimations();
+  startObserver();
+  console.log('Animations setup complete, elements:', elementStates.size);
+  
+  // ==========================================
+  // COUNTDOWN - 25 de Abril 2026 a las 12:00 PM
+  // ==========================================
+  const weddingDate = new Date('2026-04-25T12:00:00');
+  
+  function updateCountdown() {
+    const now = new Date();
+    const diff = weddingDate - now;
+    
+    if (diff <= 0) {
+      document.getElementById('countdown-days').textContent = '0';
+      document.getElementById('countdown-hours').textContent = '0';
+      document.getElementById('countdown-mins').textContent = '0';
+      document.getElementById('countdown-secs').textContent = '0';
+      return;
+    }
+    
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const secs = Math.floor((diff % (1000 * 60)) / 1000);
+    
+    document.getElementById('countdown-days').textContent = days;
+    document.getElementById('countdown-hours').textContent = hours;
+    document.getElementById('countdown-mins').textContent = mins;
+    document.getElementById('countdown-secs').textContent = secs;
+  }
+  
+  // Update immediately and then every second
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+});
+</script>
+
+</body>
+</html>
